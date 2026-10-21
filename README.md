@@ -14,3 +14,15 @@ docker build -t joke-container .
 docker run --rm joke-container
 ```
 The app fetches a random joke from the [Official Joke API](https://official-joke-api.appspot.com/random_joke), prints the setup, waits 3 seconds, then prints the punchline.
+
+## Automated Tests & Builds
+
+This repository also contains two workflows in `.github/workflows` that TEST and BUILD this application and its container image.
+
+If the test fails, the image does not build.
+
+Published images are available here:
+
+```
+docker run --rm ghcr.io/uvasds-systems/joke-container:latest
+```
