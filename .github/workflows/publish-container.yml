@@ -1,6 +1,6 @@
 name: Publish
 
-# runs only after "Test container" completes (pushes to main and pull requests)
+# runs only after "Test" completes (pushes to main and pull requests)
 on:
   workflow_run:
     workflows: ["Test"]
