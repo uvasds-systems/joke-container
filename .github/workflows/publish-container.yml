@@ -1,9 +1,9 @@
-name: Publish container
+name: Publish
 
 # runs only after "Test container" completes (pushes to main and pull requests)
 on:
   workflow_run:
-    workflows: ["Test container"]
+    workflows: ["Test"]
     types: [completed]
 
 env:
