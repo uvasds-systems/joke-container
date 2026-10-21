@@ -1,0 +1,43 @@
+name: Test container
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t joke-container .
+
+      - name: Run container and verify joke output
+        run: |
+          start=$(date +%s)
+          status=0
+          docker run --rm joke-container > output.txt 2> error.txt || status=$?
+          elapsed=$(( $(date +%s) - start ))
+
+          echo "--- stdout ---"; cat output.txt
+          echo "--- stderr ---"; cat error.txt
+
+          # container must exit cleanly with nothing on stderr
+          [ "$status" -eq 0 ] || { echo "::error::Container exited with status $status"; exit 1; }
+          [ ! -s error.txt ] || { echo "::error::Unexpected stderr output"; exit 1; }
+
+          # expect exactly two non-empty lines: setup and punchline
+          lines=$(grep -c . output.txt || true)
+          [ "$lines" -eq 2 ] || { echo "::error::Expected 2 lines (setup + punchline), got $lines"; exit 1; }
+
+          setup=$(sed -n 1p output.txt)
+          punchline=$(sed -n 2p output.txt)
+          [ "$setup" != "$punchline" ] || { echo "::error::Setup and punchline are identical"; exit 1; }
+
+          # punchline should follow a ~3 second pause
+          [ "$elapsed" -ge 3 ] || { echo "::error::Run took ${elapsed}s; expected >= 3s delay"; exit 1; }
+
+          echo "Joke verified."
