@@ -1,3 +1,5 @@
+![Publish](https://github.com/uvasds-systems/joke-container/workflows/publish-container.yml/badge.svg)
+
 # Joke Container
 
 A simple demo of a containerized application. This project isn't a joke! ;^)
