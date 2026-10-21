@@ -1,4 +1,4 @@
-![Publish](https://github.com/uvasds-systems/joke-container/workflows/publish-container.yml/badge.svg)
+[![Publish](https://github.com/uvasds-systems/joke-container/actions/workflows/publish-container.yml/badge.svg)](https://github.com/uvasds-systems/joke-container/actions/workflows/publish-container.yml)
 
 # Joke Container
 
